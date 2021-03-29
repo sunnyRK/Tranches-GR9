@@ -39,8 +39,8 @@ describe("deployed Contract", function() {
 
     await IdleBarnBridge_Instance.initialize(
         barnBridgeUsdcContract.address, 
-        accounts[0].address,
-        usdcAddress
+        accounts[0].address
+        // usdcAddress
     )
 
     await usdcContract.approve(barnBridgeUsdcContract.address, '1000000000000000000000000000000000')

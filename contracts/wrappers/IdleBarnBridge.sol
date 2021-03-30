@@ -82,7 +82,7 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
   function nextSupplyRateWithParams(uint256[] calldata)
     external view
     returns (uint256) {
-    return 0;
+    return nextSupplyRate(0);
   }
 
   /**
@@ -95,9 +95,6 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
     external view
     returns (uint256) {
       return ICErc20(cErc20).exchangeRateStored();
-      // return 0;
-      // uint256 apy = IBarnBridge(token).maxBondDailyRate(); // It is not view function
-      // return apy;
   }
 
   /**
@@ -115,7 +112,7 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
   function getAPR()
     external view
     returns (uint256) {
-        return 0;
+        return nextSupplyRate(0);
   }
 
   /**

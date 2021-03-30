@@ -1,20 +1,39 @@
-# Idle contracts
-Live version: [https://idle.finance](https://idle.finance)
+# Idle Finance & BarnBridge Tranche Strategy
 
-### Introduction
-Idle is a decentralized protocol dedicated to bringing automatic asset allocation and aggregation to the interest-bearing tokens economy. This protocol bundles stable crypto-assets (stablecoins) into tokenized baskets that are programmed to automatically rebalance based on different management logics.
+## Solution
 
-### Docs
-[developers.idle.finance](http://developers.idle.finance/)
+I have used Idle finance interface `ILendingProtocol` to starture for strategy.
 
-### Tests
-To run tests first spin up a ganache-cli instance with unlimited contract size flag
-```
-ganache-cli --allowUnlimitedContractSize
-```
+Where strategy consumes a `USDC` token and internall it will call `buyTokens` of BarnBridge and buy BarnBridge cUSDC token.
 
-then
+Strategy will get `Senior Tranche APY` from BarnBridge. There are two types of tranches in `BarnBridge like Senior and Junior Tranches`.
 
-```
-truffle test
-```
+`Senior tanches is fixed rate` pool and there is no risk user will get fixed rate on top of their bond.
+
+`Junior Tranches are at higher risk.` It is not fixed rate it is variable rate. It can get a more apy then senior tranche but if price get vrash of token then it could get lower apy then senior.
+
+## IdleBarnBridge Strategy Code and test case: 
+
+`Strategy:` You can find code in `contracts/wrappers/IBarnBridge.sol` path.
+
+`Test-case:` You can find test case in `test/IdleBarnBridge-test.js` path.
+
+## Run 
+
+`Download code`
+1). Clone repo
+
+`Install dependency`
+2). yarn
+
+`to run on mainnet fork`  
+3). npx hardhat test --network hardhat
+
+## Contact
+
+[Twitter](https://twitter.com/RadadiyaSunny)  
+`Discord: sunny#3937` 
+
+
+
+

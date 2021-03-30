@@ -14,9 +14,12 @@ Strategy will get `Senior Tranche APY` from BarnBridge. There are two types of t
 
 ## IdleBarnBridge Strategy Code and test case: 
 
-`Strategy:` You can find code in `contracts/wrappers/IBarnBridge.sol` path.
+`Strategy:` You can find code in `contracts/wrappers/IBarnBridge.sol` path.  
+[Clieck here to go strategy code](https://github.com/sunnyRK/Tranches-GR9/blob/master/contracts/wrappers/IdleBarnBridge.sol)
 
-`Test-case:` You can find test case in `test/IdleBarnBridge-test.js` path.
+
+`Test-case:` You can find test case in `test/IdleBarnBridge-test.js` path.  
+[Click here to go test cases](https://github.com/sunnyRK/Tranches-GR9/blob/master/test/idleBarnBridge-test.js)  
 
 ## Run 
 

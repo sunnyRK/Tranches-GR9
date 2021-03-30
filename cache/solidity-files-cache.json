@@ -5049,8 +5049,8 @@
       ]
     },
     "C:\\Blockchain\\Projects\\Gitcoin\\IDLE\\Idle-contracts-2\\idle-contracts\\contracts\\wrappers\\IdleBarnBridge.sol": {
-      "lastModificationDate": 1617024890714,
-      "contentHash": "59b8cdfa23f90af6c0aa111d3714671e",
+      "lastModificationDate": 1617062985777,
+      "contentHash": "1114cf684c136e9ef3a1fb53497c696b",
       "sourceName": "contracts/wrappers/IdleBarnBridge.sol",
       "solcConfig": {
         "version": "0.5.16",
@@ -5088,6 +5088,7 @@
       ],
       "artifacts": [
         "IBarnBridge",
+        "ICErc20",
         "ICompoundProvider",
         "IController2",
         "IdleBarnBridge"

@@ -35,6 +35,10 @@ interface ICompoundProvider {
   function uToken() external view returns (uint256);
 }
 
+interface ICErc20 {
+  function exchangeRateStored() external view returns (uint);
+}
+
 contract IdleBarnBridge is ILendingProtocol, Ownable {
   using SafeERC20 for IERC20;
   using SafeMath for uint256;
@@ -49,6 +53,7 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
 
   address public controller = 0x41Ab25709e0C3EDf027F6099963fE9AD3EBaB3A3; // BarnBridge Controller
   address public compoundProvider = 0xDAA037F99d168b552c0c61B7Fb64cF7819D78310; // BarnBridge CompoundProvider
+  address public cErc20 = 0x39AA39c021dfbaE8faC545936693aC917d5E7563; // cToken
 
   /**
    * @param _token : BarnBridge junior cUSDC address
@@ -61,7 +66,8 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
     token = _token;
     underlying = address(ICompoundProvider(IBarnBridge(_token).pool()).uToken());
     idleToken = _idleToken;
-    IERC20(underlying).safeApprove(_token, uint256(-1));
+    IERC20(underlying).safeApprove(compoundProvider, 0);
+    IERC20(underlying).safeApprove(compoundProvider, uint256(-1));
     initialized = true;
   }
 
@@ -80,15 +86,16 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
   }
 
   /**
-   * Calculate next supply rate for crDAI, given an `_amount` supplied
+   * Calculate next supply rate for cUSDC, given an `_amount` supplied
    *
-   * @param _amount : new underlying amount supplied (eg DAI)
+   * @param _amount : new underlying amount supplied (eg USDC)
    * @return : yearly net rate
    */
   function nextSupplyRate(uint256 _amount)
     external view
     returns (uint256) {
-      return 0;
+      return ICErc20(cErc20).exchangeRateStored();
+      // return 0;
       // uint256 apy = IBarnBridge(token).maxBondDailyRate(); // It is not view function
       // return apy;
   }
@@ -127,11 +134,15 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
       if (balance == 0) {
         return barnBridgeJuniorCusdc;
       }
+
       uint256 minTokens_ = _mintMinUnderlying(balance);
 
-      IERC20(underlying).safeApprove(compoundProvider, 0);
-      IERC20(underlying).safeApprove(compoundProvider, uint256(-1));
-      IBarnBridge(token).buyTokens(balance, minTokens_, block.timestamp.add(3600));
+      IBarnBridge(token).buyTokens(
+        balance, 
+        minTokens_, 
+        block.timestamp.add(3600)
+      );  // BarnBridge external function call to stake
+
       barnBridgeJuniorCusdc = IERC20(token).balanceOf(address(this));
       IERC20(token).safeTransfer(msg.sender, barnBridgeJuniorCusdc);
   }
@@ -155,7 +166,13 @@ contract IdleBarnBridge is ILendingProtocol, Ownable {
     onlyIdle
     returns (uint256 tokens) {
     uint256 minUnderlying_ = _redeemMinUnderlying(IERC20(token).balanceOf(address(this)));
-    IBarnBridge(token).sellTokens(IERC20(token).balanceOf(address(this)), minUnderlying_, block.timestamp.add(3600));
+
+    IBarnBridge(token).sellTokens(
+      IERC20(token).balanceOf(address(this)), 
+      minUnderlying_, 
+      block.timestamp.add(3600)
+    ); // BarnBridge external function call to redeem
+
     IERC20 _underlying = IERC20(underlying);
     tokens = _underlying.balanceOf(address(this));
     _underlying.safeTransfer(_account, tokens);

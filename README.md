@@ -12,7 +12,7 @@ Strategy will get `Senior Tranche APY` from BarnBridge. There are two types of t
 
 `Junior Tranches are at higher risk.` It is not fixed rate it is variable rate. It can get a more apy then senior tranche but if price get vrash of token then it could get lower apy then senior.
 
-## IdleBarnBridge Strategy Code and test case: 
+## IdleBarnBridge Strategy Code and test case:
 
 `Strategy:` You can find code in `contracts/wrappers/IBarnBridge.sol` path.  
 [Clieck here to go strategy code](https://github.com/sunnyRK/Tranches-GR9/blob/master/contracts/wrappers/IdleBarnBridge.sol)
@@ -21,7 +21,7 @@ Strategy will get `Senior Tranche APY` from BarnBridge. There are two types of t
 `Test-case:` You can find test case in `test/IdleBarnBridge-test.js` path.  
 [Click here to go test cases](https://github.com/sunnyRK/Tranches-GR9/blob/master/test/idleBarnBridge-test.js)  
 
-## Run 
+## Run
 
 `Download code`
 1). Clone repo
